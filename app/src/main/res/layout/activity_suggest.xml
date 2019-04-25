@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Нажмите, чтобы обновить"
+        android:id="@+id/et"
+        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+      >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Музеи"
+            android:textColor="@color/colorPrimary"/>
+        <com.example.itydot.ScrollableListView
+            android:id="@+id/suggest_result"
+            android:layout_width="match_parent"
+            android:layout_height="50mm"
+           />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Театры"
+            android:textColor="@color/colorPrimary"/>
+        <com.example.itydot.ScrollableListView
+            android:id="@+id/suggest_result1"
+            android:layout_width="match_parent"
+            android:layout_height="50mm"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Кинотеатры"
+            android:textColor="@color/colorPrimary"/>
+        <com.example.itydot.ScrollableListView
+            android:id="@+id/suggest_result2"
+            android:layout_width="match_parent"
+            android:layout_height="50mm"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Памятники"
+            android:textColor="@color/colorPrimary"/>
+        <com.example.itydot.ScrollableListView
+            android:id="@+id/suggest_result3"
+            android:layout_width="match_parent"
+            android:layout_height="50mm"
+            />
+
+    </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
