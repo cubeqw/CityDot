@@ -8,11 +8,9 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.yandex.mapkit.GeoObjectCollection;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
@@ -25,14 +23,16 @@ import com.yandex.mapkit.map.VisibleRegionUtils;
 import com.yandex.mapkit.mapview.MapView;
 import com.yandex.mapkit.search.Response;
 import com.yandex.mapkit.search.SearchFactory;
+import com.yandex.mapkit.search.SearchManager;
 import com.yandex.mapkit.search.SearchManagerType;
 import com.yandex.mapkit.search.SearchOptions;
-import com.yandex.mapkit.search.SearchManager;
 import com.yandex.mapkit.search.Session;
 import com.yandex.runtime.Error;
 import com.yandex.runtime.image.ImageProvider;
 import com.yandex.runtime.network.NetworkError;
 import com.yandex.runtime.network.RemoteError;
+
+import java.util.ArrayList;
 
 
 public class Search extends Activity implements Session.SearchListener, CameraListener {
@@ -41,9 +41,9 @@ public class Search extends Activity implements Session.SearchListener, CameraLi
     int count=0;
     boolean f=true;
     private MapView mapView;
-    private EditText searchEdit;
     private SearchManager searchManager;
     private Session searchSession;
+    ArrayList al;
 TextView tv;
     private void submitQuery(String query) {
         searchSession = searchManager.submit(
@@ -66,20 +66,10 @@ tv=findViewById(R.id.tv);
         mapView = (MapView)findViewById(R.id.mapview);
         mapView.getMap().addCameraListener(this);
 
-        searchEdit = (EditText)findViewById(R.id.search_edit);
 
-        searchEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    submitQuery(searchEdit.getText().toString());
-                }
 
-                return false;
-            }
-        });
         if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.M&& checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1000);
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         }
         else{
             LocationManager lm=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -87,8 +77,7 @@ tv=findViewById(R.id.tv);
             mapView.getMap().move(
 
                     new CameraPosition(new Point(l.getLatitude(), l.getLongitude()), 12.0f, 0.0f, 0.0f));
-
-            submitQuery(searchEdit.getText().toString());
+            submitQuery("");
         }
 
     }
@@ -144,9 +133,7 @@ tv=findViewById(R.id.tv);
             CameraPosition cameraPosition,
             CameraUpdateSource cameraUpdateSource,
             boolean finished) {
-        if (finished) {
-            submitQuery(searchEdit.getText().toString());
-        }
+
     }
 }
 

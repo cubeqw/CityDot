@@ -2,9 +2,10 @@ package com.example.itydot;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.search.SearchFactory;
@@ -16,6 +17,7 @@ import java.util.List;
 
 
 public class Suggest extends Activity {
+    boolean firstS=true;
     String city_name;
     double lat, lon;
     private final String MAPKIT_API_KEY = "67336d59-08cb-47f3-9b18-334860703128";
@@ -23,7 +25,7 @@ public class Suggest extends Activity {
     private ListView suggestResultView, suggestResultView1, suggestResultView2, suggestResultView3;
     private ArrayAdapter resultAdapter, resultAdapter1, resultAdapter2,resultAdapter3;
     private List<String> museum, teatr, cinema, mem;
-    TextView tv;
+    TinyDB tinyDB = new TinyDB(getApplicationContext());
 
 
     @Override
@@ -41,20 +43,24 @@ MapKitFactory.setApiKey(MAPKIT_API_KEY);
         suggestResultView1 =findViewById(R.id.suggest_result1);
         suggestResultView2 =findViewById(R.id.suggest_result2);
         suggestResultView3 =findViewById(R.id.suggest_result3);
-        FirstSearch museum_s=new FirstSearch("музей "+city_name);
+        if(firstS){
         museum =getPlaces("Музеи");
-        resultAdapter =setArrayAdapter(museum);
         teatr=getPlaces("Театры");
-        resultAdapter1 =setArrayAdapter(teatr);
         cinema=getPlaces("Кинотеатры");
-        resultAdapter2=setArrayAdapter(cinema);
-        mem=getPlaces("Скульптуры");
-        resultAdapter3=setArrayAdapter(mem);
+        mem=getPlaces("Скульптуры"); }
+        else{museum=tinyDB.getListString("museum");
+        teatr=tinyDB.getListString("teatr");
+        cinema= tinyDB.getListString("cinema");
+        mem=tinyDB.getListString("mem");
+        }
+            resultAdapter =setArrayAdapter(museum);
+            resultAdapter1 =setArrayAdapter(teatr);
+            resultAdapter2=setArrayAdapter(cinema);
+            resultAdapter3=setArrayAdapter(mem);
         suggestResultView.setAdapter(resultAdapter);
         suggestResultView1.setAdapter(resultAdapter1);
         suggestResultView2.setAdapter(resultAdapter2);
         suggestResultView3.setAdapter(resultAdapter3);
-
     }
 
     @Override
@@ -83,5 +89,19 @@ MapKitFactory.setApiKey(MAPKIT_API_KEY);
                 android.R.id.text1,
                 f);
         return g;
+    }
+    public void onClick(View v){
+        saveList(museum,"museum");
+        saveList(mem,"mem");
+        saveList(cinema,"cinema");
+        saveList(teatr,"teatr");
+    }
+    public void saveList(List f, String s){
+        if(museum.size()!=0) {
+            tinyDB.putListString(s, (ArrayList<String>) f);
+            ArrayList al = new ArrayList();
+            al = tinyDB.getListString(s);
+            Log.d("sptest",s+" "+ String.valueOf(al.size())+" "+al.get(1));
+        }
     }
 }

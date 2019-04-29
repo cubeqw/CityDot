@@ -8,6 +8,11 @@
         android:hint="Нажмите, чтобы обновить"
         android:id="@+id/et"
         />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:onClick="onClick"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
