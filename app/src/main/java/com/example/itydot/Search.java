@@ -1,12 +1,6 @@
 package com.example.itydot;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +27,7 @@ import com.yandex.runtime.network.NetworkError;
 import com.yandex.runtime.network.RemoteError;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Search extends Activity implements Session.SearchListener, CameraListener {
@@ -43,44 +38,46 @@ public class Search extends Activity implements Session.SearchListener, CameraLi
     private MapView mapView;
     private SearchManager searchManager;
     private Session searchSession;
+    double lat, lon;
     ArrayList al;
+    TinyDB tinydb;
 TextView tv;
-    private void submitQuery(String query) {
+    private void submitQuery(List query) {
+        for (int i = 0; i < query.size(); i++) {
         searchSession = searchManager.submit(
-                query,
+                (String) query.get(i),
                 VisibleRegionUtils.toPolygon(mapView.getMap().getVisibleRegion()),
                 new SearchOptions(),
                 this);
-    }
+    }}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MapKitFactory.setApiKey(MAPKIT_API_KEY);
+        tinydb= new TinyDB(getApplicationContext());
+        lat = getIntent().getDoubleExtra("lat", 0);
+        lon = getIntent().getDoubleExtra("lon", 0);
         MapKitFactory.initialize(this);
         SearchFactory.initialize(this);
         setContentView(R.layout.activity_search);
         super.onCreate(savedInstanceState);
 tv=findViewById(R.id.tv);
         searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED);
-
+        al=new ArrayList();
+        al.addAll(tinydb.getListObject("museum", String.class));
+        al.addAll(tinydb.getListObject("mem", String.class));
+        al.addAll(tinydb.getListObject("teatr", String.class));
+        al.addAll(tinydb.getListObject("cinema", String.class));
+        al.addAll(tinydb.getListObject("square", String.class));
+        Toast.makeText(getApplicationContext(), al.size()+"", Toast.LENGTH_SHORT).show();
         mapView = (MapView)findViewById(R.id.mapview);
         mapView.getMap().addCameraListener(this);
-
-
-
-        if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.M&& checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-        }
-        else{
-            LocationManager lm=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            Location l=lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             mapView.getMap().move(
-
-                    new CameraPosition(new Point(l.getLatitude(), l.getLongitude()), 12.0f, 0.0f, 0.0f));
-            submitQuery("");
+                    new CameraPosition(new Point(lat, lon), 12.0f, 0.0f, 0.0f));
+            submitQuery(al);
         }
 
-    }
+
 
     @Override
     protected void onStop() {

@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:textSize="40sp"
             android:text="25%"
+            android:id="@+id/ma"
             android:textColor="@color/colorPrimaryDark"/>
 
 </LinearLayout>

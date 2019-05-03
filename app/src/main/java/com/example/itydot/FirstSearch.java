@@ -22,7 +22,7 @@ public class FirstSearch implements SearchManager.SuggestListener{
     String query;
     double lat;
     double lon;
-    private List<String> suggestResult = new ArrayList<>();
+    private ArrayList<Object> suggestResult = new ArrayList<Object>();
     private static final int RESULT_NUMBER_LIMIT = 20;
     private final Point CENTER = new Point(lat, lon);
     private final double BOX_SIZE = 0.2;
@@ -44,7 +44,7 @@ public class FirstSearch implements SearchManager.SuggestListener{
     @Override
     public void onSuggestResponse(List<SuggestItem> suggest) {
         for (int i = 0; i < Math.min(RESULT_NUMBER_LIMIT, suggest.size()); i++) {
-            suggestResult.add(String.valueOf(suggest.get(i).getDisplayText()));
+            suggestResult.add(String.valueOf(query+suggest.get(i).getDisplayText()));
             getPlaces();
         }
     }
@@ -63,7 +63,7 @@ public class FirstSearch implements SearchManager.SuggestListener{
     private void requestSuggest(String query) {
         searchManager.suggest(query, BOUNDING_BOX, SEARCH_OPTIONS, this);
     }
-    public List getPlaces(){
+    public ArrayList<Object> getPlaces(){
         Log.d("mytag2", String.valueOf(suggestResult.size()));
         return suggestResult;
     }
