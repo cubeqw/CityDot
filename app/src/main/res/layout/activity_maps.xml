@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClick"
-        android:text="Поиск по карте"
+        android:text="Показать CityDot's на карте"
         android:textColor="@color/colorPrimary"
         android:textAllCaps="false"
         android:background="#FFF"/>
@@ -55,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClick2"
-        android:text="Найти CityDot"
+        android:text="Найти CityDot's"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimary"
         android:background="#FFF"/>
