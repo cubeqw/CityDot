@@ -31,7 +31,7 @@ import java.util.List;
 
 
 public class Search extends Activity implements Session.SearchListener, CameraListener {
-
+    String city_name;
     private final String MAPKIT_API_KEY = "67336d59-08cb-47f3-9b18-334860703128";
     int count=0;
     boolean f=true;
@@ -54,6 +54,7 @@ TextView tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MapKitFactory.setApiKey(MAPKIT_API_KEY);
+        city_name = getIntent().getStringExtra("city_name");
         tinydb= new TinyDB(getApplicationContext());
         lat = getIntent().getDoubleExtra("lat", 0);
         lon = getIntent().getDoubleExtra("lon", 0);
@@ -64,18 +65,30 @@ TextView tv;
 tv=findViewById(R.id.tv);
         searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED);
         al=new ArrayList();
-        al.addAll(tinydb.getListObject("museum", String.class));
-        al.addAll(tinydb.getListObject("mem", String.class));
-        al.addAll(tinydb.getListObject("teatr", String.class));
-        al.addAll(tinydb.getListObject("cinema", String.class));
-        al.addAll(tinydb.getListObject("square", String.class));
-        Toast.makeText(getApplicationContext(), al.size()+"", Toast.LENGTH_SHORT).show();
-        mapView = (MapView)findViewById(R.id.mapview);
+        for (int i = 0; i < tinydb.getListObject("mem", String.class).size(); i++) {
+            al.add(city_name+":Место:Скульптуры "+tinydb.getListObject("mem", String.class).get(i));
+        }
+        for (int i = 0; i < tinydb.getListObject("teatr", String.class).size(); i++) {
+            al.add(city_name+":Место:Театры "+tinydb.getListObject("teatr", String.class).get(i));
+        }
+        for (int i = 0; i < tinydb.getListObject("museum", String.class).size(); i++) {
+            al.add(city_name+":Место:Музеи "+tinydb.getListObject("museum", String.class).get(i));
+        }
+        for (int i = 0; i < tinydb.getListObject("cinema", String.class).size(); i++) {
+            al.add(city_name+":Место:Кинотеатры "+tinydb.getListObject("cinema", String.class).get(i));
+        }
+        for (int i = 0; i < tinydb.getListObject("square", String.class).size(); i++) {
+            al.add(city_name+tinydb.getListObject("square", String.class).get(i));
+        }for (int i = 0; i < tinydb.getListObject("moll", String.class).size(); i++) {
+            al.add(city_name+":Место:Торговые центры "+tinydb.getListObject("moll", String.class).get(i));
+        }
+        mapView =findViewById(R.id.mapview);
         mapView.getMap().addCameraListener(this);
             mapView.getMap().move(
                     new CameraPosition(new Point(lat, lon), 12.0f, 0.0f, 0.0f));
             submitQuery(al);
-        }
+        Toast.makeText(getApplicationContext(), al.size()+"", Toast.LENGTH_SHORT).show();
+    }
 
 
 

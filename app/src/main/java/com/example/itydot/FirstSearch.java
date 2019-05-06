@@ -44,7 +44,7 @@ public class FirstSearch implements SearchManager.SuggestListener{
     @Override
     public void onSuggestResponse(List<SuggestItem> suggest) {
         for (int i = 0; i < Math.min(RESULT_NUMBER_LIMIT, suggest.size()); i++) {
-            suggestResult.add(String.valueOf(query+suggest.get(i).getDisplayText()));
+            suggestResult.add(suggest.get(i).getDisplayText());
             getPlaces();
         }
     }

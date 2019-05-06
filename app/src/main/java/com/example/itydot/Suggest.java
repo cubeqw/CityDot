@@ -1,6 +1,7 @@
 package com.example.itydot;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -29,10 +30,12 @@ public class Suggest extends Activity {
     private ArrayList<Object> moll;
     private ArrayList<Object> square;
     TinyDB tinydb;
+    public static final String SP_NAME = "spName";
+    public static final String SP_KEY_FIRST_START = "spKeyFirstStart";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-MapKitFactory.setApiKey(MAPKIT_API_KEY);
+        MapKitFactory.setApiKey(MAPKIT_API_KEY);
         MapKitFactory.initialize(this);
         tinydb= new TinyDB(getApplicationContext());
         SearchFactory.initialize(this);
@@ -48,26 +51,37 @@ MapKitFactory.setApiKey(MAPKIT_API_KEY);
         suggestResultView3 =findViewById(R.id.suggest_result3);
         sv5 =findViewById(R.id.suggest_result5);
         sv4=findViewById(R.id.suggest_result6);
-        museum =getPlaces("Место:Музеи");
-        teatr=getPlaces("Место:Театры");
-        cinema=getPlaces("Место:Кинотеатры");
-        mem=getPlaces("Место:Скульптуры");
-        moll=getPlaces("Место:ТЦ");
-        square=getPlaces("Место:Скверы");
-            resultAdapter =setArrayAdapter(museum);
-            resultAdapter1 =setArrayAdapter(teatr);
-            resultAdapter2=setArrayAdapter(cinema);
-            resultAdapter3=setArrayAdapter(mem);
-            ra5=setArrayAdapter(moll);
-            ra4=setArrayAdapter(square);
+        SharedPreferences sp = getSharedPreferences(SP_NAME, MODE_PRIVATE);
+        boolean firstStart = sp.getBoolean(SP_KEY_FIRST_START, true);
+        if(firstStart) {
+            sp.edit().putBoolean(SP_KEY_FIRST_START, false).apply();
+            Toast.makeText(getApplicationContext(), "Обновление списка мест...", Toast.LENGTH_LONG).show();
+            museum =getPlaces("Место:Музеи");
+            teatr=getPlaces("Место:Театры");
+            cinema=getPlaces("Место:Кинотеатры");
+            mem=getPlaces("Место:Скульптуры");
+            moll=getPlaces("Место:ТЦ");
+            square=getPlaces("Место:Скверы");        } else {
+            museum=(tinydb.getListObject("museum", String.class));
+            mem=(tinydb.getListObject("mem", String.class));
+            square=(tinydb.getListObject("square", String.class));
+            teatr=(tinydb.getListObject("teatr", String.class));
+            cinema=(tinydb.getListObject("cinema", String.class));
+            moll=(tinydb.getListObject("moll", String.class));        }
+
+        resultAdapter =setArrayAdapter(museum);
+        resultAdapter1 =setArrayAdapter(teatr);
+        resultAdapter2=setArrayAdapter(cinema);
+        resultAdapter3=setArrayAdapter(mem);
+        ra5=setArrayAdapter(moll);
+        ra4=setArrayAdapter(square);
         suggestResultView.setAdapter(resultAdapter);
         suggestResultView1.setAdapter(resultAdapter1);
         suggestResultView2.setAdapter(resultAdapter2);
         suggestResultView3.setAdapter(resultAdapter3);
         sv4.setAdapter(ra4);
         sv5.setAdapter(ra5);
-        Toast.makeText(getApplicationContext(), "Обновление списка мест...", Toast.LENGTH_LONG).show();
-      Thread  thread = new Thread(){
+        Thread  thread = new Thread(){
             @Override
             public void run() {
                 try {
@@ -77,7 +91,7 @@ MapKitFactory.setApiKey(MAPKIT_API_KEY);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                              update();
+                                update();
                             }
                         });
 
@@ -106,13 +120,13 @@ MapKitFactory.setApiKey(MAPKIT_API_KEY);
         ArrayList<Object> e=new ArrayList<>();
         FirstSearch d=new FirstSearch(city_name+": "+s);
         if(d.getPlaces()!=null){
-        for (int i = 0; i < d.getPlaces().size(); i++) {
-            e.add(d.getPlaces().get(i).toString());
-        }
-        e= d.getPlaces();
-        return  e;}
+            for (int i = 0; i < d.getPlaces().size(); i++) {
+                e.add(d.getPlaces().get(i).toString());
+            }
+            e= d.getPlaces();
+            return  e;}
         else{e.add("error");
-        return e;}
+            return e;}
     }
     public ArrayAdapter setArrayAdapter(List f){
         ArrayAdapter g=new ArrayAdapter(this,
@@ -121,19 +135,19 @@ MapKitFactory.setApiKey(MAPKIT_API_KEY);
                 f);
         return g;
     }
-   public void update(){
+    public void update(){
 
-       resultAdapter.notifyDataSetChanged();
-       resultAdapter1.notifyDataSetChanged();
-       resultAdapter2.notifyDataSetChanged();
-       resultAdapter3.notifyDataSetChanged();
-       ra4.notifyDataSetChanged();
-       ra5.notifyDataSetChanged();
-      tinydb.putListObject("museum",museum);
-     tinydb.putListObject("mem", mem);
-     tinydb.putListObject("teatr", teatr);
-     tinydb.putListObject("cinema", cinema);
-     tinydb.putListObject("moll", moll);
-     tinydb.putListObject("square", square);
+        resultAdapter.notifyDataSetChanged();
+        resultAdapter1.notifyDataSetChanged();
+        resultAdapter2.notifyDataSetChanged();
+        resultAdapter3.notifyDataSetChanged();
+        ra4.notifyDataSetChanged();
+        ra5.notifyDataSetChanged();
+        tinydb.putListObject("museum",museum);
+        tinydb.putListObject("mem", mem);
+        tinydb.putListObject("teatr", teatr);
+        tinydb.putListObject("cinema", cinema);
+        tinydb.putListObject("moll", moll);
+        tinydb.putListObject("square", square);
     }
 }
