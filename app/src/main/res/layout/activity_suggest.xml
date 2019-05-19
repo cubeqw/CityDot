@@ -1,8 +1,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv"
+        android:textSize="25sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_gravity="center"
+        />
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,8 +33,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Музеи"
-            android:textColor="@color/colorPrimary"/>
-        <com.example.itydot.ScrollableListView
+            android:textSize="20sp"
+            android:textColor="#696969"/>
+        <com.cubeqw.citydot.ScrollableListView
             android:id="@+id/suggest_result"
             android:layout_width="match_parent"
             android:layout_height="50mm"
@@ -28,8 +44,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Театры"
-            android:textColor="@color/colorPrimary"/>
-        <com.example.itydot.ScrollableListView
+            android:textSize="20sp"
+            android:textColor="#A0522D"/>
+        <com.cubeqw.citydot.ScrollableListView
             android:id="@+id/suggest_result1"
             android:layout_width="match_parent"
             android:layout_height="50mm"
@@ -38,18 +55,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Кинотеатры"
-            android:textColor="@color/colorPrimary"/>
-        <com.example.itydot.ScrollableListView
+            android:textSize="20sp"
+            android:textColor="#DC143C"/>
+        <com.cubeqw.citydot.ScrollableListView
             android:id="@+id/suggest_result2"
             android:layout_width="match_parent"
             android:layout_height="50mm"
+            android:textColor="#DC143C"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Памятники"
-            android:textColor="@color/colorPrimary"/>
-        <com.example.itydot.ScrollableListView
+            android:text="Скульптуры"
+            android:textSize="20sp"
+            android:textColor="#4B0082"/>
+        <com.cubeqw.citydot.ScrollableListView
             android:id="@+id/suggest_result3"
             android:layout_width="match_parent"
             android:layout_height="50mm"
@@ -58,8 +78,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Торговые центры"
-            android:textColor="@color/colorPrimary"/>
-        <com.example.itydot.ScrollableListView
+            android:textColor="#FF8C00"
+           android:textSize="20sp"/>
+        <com.cubeqw.citydot.ScrollableListView
             android:id="@+id/suggest_result5"
             android:layout_width="match_parent"
             android:layout_height="50mm"
@@ -68,8 +89,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Парки"
-            android:textColor="@color/colorPrimary"/>
-        <com.example.itydot.ScrollableListView
+            android:textColor="#228B22"
+            android:textSize="20sp"/>
+        <com.cubeqw.citydot.ScrollableListView
             android:id="@+id/suggest_result6"
             android:layout_width="match_parent"
             android:layout_height="50mm"
@@ -77,5 +99,6 @@
 
     </LinearLayout>
     </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

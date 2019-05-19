@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="termsmap">Условия использования Яндекс.Карт</string>
-    <string name="map">Map</string>/string
-    <string name="user_location">User Location</string>
-    <string name="driving">Driving</string>
-    <string name="mapobjects">Map Objects</string>
-    <string name="search">Search</string>
-    <string name="suggest">Suggest</string>
-    <string name="panorama">Panorama</string>
-    <string name="custom_layer">Custom Layer</string>
-    <string name="masstransit_routing">Masstransit routing</string>
-    <string name="geo_json_test">Geo JSON</string>
-
-    <string name="not_found_error_message">Not found</string>
+    /string
     <string name="network_error_message">Network error</string>
     <string name="remote_error_message">Remote server error</string>
     <string name="unknown_error_message">Unknown error</string>
-
     <string name="app_name">CityDot</string>
-    <string name="package_name">com.cubeqw.citydot</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

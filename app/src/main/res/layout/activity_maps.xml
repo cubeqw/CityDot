@@ -1,76 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   android:orientation="vertical"
- >
-    <TextView
-                android:id="@+id/tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:textSize="35sp"
-        android:textColor="@color/colorPrimary"/>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context=".MapsActivity"
+    android:id="@+id/maps"
+    android:theme="@style/AppTheme2">
+
+    <include layout="@layout/main" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-
-
-    <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:text="изучено:"
-                android:textSize="15sp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="40sp"
-            android:text="25%"
-            android:id="@+id/ma"
-            android:textColor="@color/colorPrimaryDark"/>
-
-</LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="100"
-        android:progress="25" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onClick"
-        android:text="Показать CityDot's на карте"
-        android:textColor="@color/colorPrimary"
-        android:textAllCaps="false"
-        android:background="#FFF"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="@dimen/fab_margin"
+        android:tooltipText="Добавить"
         android:onClick="onClick2"
-        android:text="Найти CityDot's"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimary"
-        android:background="#FFF"/>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <com.yandex.mapkit.mapview.MapView
-            android:id="@+id/mapview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-
-</LinearLayout>
+        app:srcCompat="@drawable/plus"
+        />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/s"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="@dimen/fab_margin"
+        android:tooltipText="История"
+        android:onClick="onClick"
+        app:srcCompat="@drawable/history"
+        />
+</android.support.design.widget.CoordinatorLayout>
