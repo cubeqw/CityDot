@@ -1,104 +1,40 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    tools:context=".MapsActivity"
+    android:id="@+id/suggests"
+    android:theme="@style/AppTheme3"
     >
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="bottom"
+    android:maxLines="0"
+    android:id="@+id/swype"/>
+    <include layout="@layout/suggest" />
 
-    <TextView
-        android:layout_width="match_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv"
-        android:textSize="25sp"
-        android:textColor="@color/colorPrimaryDark"
+        android:layout_gravity="bottom|center"
         android:layout_margin="@dimen/fab_margin"
-        android:layout_gravity="center"
+        android:tooltipText="Назад"
+        android:onClick="onClick"
+        app:srcCompat="@drawable/sback"
         />
-    <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipe_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:tooltipText="Добавить своё место"
+        android:onClick="onClick2"
+        app:srcCompat="@drawable/splus"
+        />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-      >
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Музеи"
-            android:textSize="20sp"
-            android:textColor="#696969"/>
-        <com.cubeqw.citydot.ScrollableListView
-            android:id="@+id/suggest_result"
-            android:layout_width="match_parent"
-            android:layout_height="50mm"
-           />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Театры"
-            android:textSize="20sp"
-            android:textColor="#A0522D"/>
-        <com.cubeqw.citydot.ScrollableListView
-            android:id="@+id/suggest_result1"
-            android:layout_width="match_parent"
-            android:layout_height="50mm"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Кинотеатры"
-            android:textSize="20sp"
-            android:textColor="#DC143C"/>
-        <com.cubeqw.citydot.ScrollableListView
-            android:id="@+id/suggest_result2"
-            android:layout_width="match_parent"
-            android:layout_height="50mm"
-            android:textColor="#DC143C"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Скульптуры"
-            android:textSize="20sp"
-            android:textColor="#4B0082"/>
-        <com.cubeqw.citydot.ScrollableListView
-            android:id="@+id/suggest_result3"
-            android:layout_width="match_parent"
-            android:layout_height="50mm"
-            />
-       <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Торговые центры"
-            android:textColor="#FF8C00"
-           android:textSize="20sp"/>
-        <com.cubeqw.citydot.ScrollableListView
-            android:id="@+id/suggest_result5"
-            android:layout_width="match_parent"
-            android:layout_height="50mm"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Парки"
-            android:textColor="#228B22"
-            android:textSize="20sp"/>
-        <com.cubeqw.citydot.ScrollableListView
-            android:id="@+id/suggest_result6"
-            android:layout_width="match_parent"
-            android:layout_height="50mm"
-            />
-
-    </LinearLayout>
-    </ScrollView>
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

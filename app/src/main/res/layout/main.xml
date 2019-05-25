@@ -4,15 +4,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+    android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+    >
 
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:textSize="35sp"
-        android:textColor="@color/colorPrimary"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,15 +18,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:text=" 0изучено:"
-            android:textSize="15sp" />
+            android:text=" изучено:"
+            android:textSize="25sp" />
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="40sp"
-            android:text="25%"
             android:id="@+id/ma"
-            android:textColor="@color/colorPrimaryDark"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="16 из 40 мест"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="40sp" />
 
     </LinearLayout>
 
@@ -42,6 +38,7 @@
         style="@style/NumberProgressBar_Passing_Green"
         app:progress_max="100"
         app:progress_current="100"
+
         />
 
     <LinearLayout

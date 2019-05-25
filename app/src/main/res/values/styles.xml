@@ -7,20 +7,17 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+
 
     <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar" >
-    <item name="colorPrimary">#352</item>
-    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorPrimary">#0AC830</item>
+    <item name="colorPrimaryDark">#0AC830</item>
     <item name="colorAccent">@color/colorAccent</item>
 </style>
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+    <style name="AppTheme3" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-</style>
-
+    </style>
 </resources>

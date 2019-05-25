@@ -22,9 +22,11 @@ repositories {
     maven {
         url "http://maven.google.com/"
     }
+    jcenter()
 }
 
 dependencies {
+    implementation 'uk.co.samuelwall:material-tap-target-prompt:2.14.0'
     compile 'com.yandex.android:mapkit:3.3.1'
     compile 'com.yandex.android:search:3.3.1'
     compile 'com.daimajia.numberprogressbar:library:1.4@aar'
@@ -61,6 +63,10 @@ dependencies {
     implementation 'com.android.support:design:28.+'
     implementation 'com.android.support.constraint:constraint-layout:+'
     implementation 'com.android.support:support-vector-drawable:28.+'
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
 }
 
 dependencies {

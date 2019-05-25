@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".History">
-    <TextView
-        android:layout_width="match_parent"
+    tools:context=".MapsActivity"
+    android:id="@+id/history"
+    android:theme="@style/AppTheme2">
+
+    <include layout="@layout/history" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" История"
-        android:textSize="35sp"
-        android:textColor="#0AC830"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="@dimen/fab_margin"
+        android:tooltipText="Назад"
+        android:onClick="onClick"
+        app:srcCompat="@drawable/sback"
         />
-</LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

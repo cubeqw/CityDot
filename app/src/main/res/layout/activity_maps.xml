@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MapsActivity"
     android:id="@+id/maps"
-    android:theme="@style/AppTheme2">
+    android:theme="@style/AppTheme">
 
     <include layout="@layout/main" />
 
@@ -15,10 +15,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
+android:background="@color/colorPrimary"
         android:layout_margin="@dimen/fab_margin"
         android:tooltipText="Добавить"
         android:onClick="onClick2"
-        app:srcCompat="@drawable/plus"
+        app:srcCompat="@drawable/splus"
         />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/s"

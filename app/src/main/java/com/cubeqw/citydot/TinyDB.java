@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-
 import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -20,7 +18,9 @@ public class TinyDB {
     public ArrayList<String> getListString(String key) {
         return new ArrayList<String>(Arrays.asList(TextUtils.split(preferences.getString(key, ""), "‚‗‚")));
     }
-
+    public String getString(String key) {
+        return preferences.getString(key, "");
+    }
     public ArrayList<Object> getListObject(String key, Class<?> mClass){
     	Gson gson = new Gson();
 
