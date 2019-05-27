@@ -84,7 +84,7 @@ public class MapsActivity extends AppCompatActivity implements Session.SearchLis
                     this);
         }  for (int i = 0; i < complete.size(); i++) {
             searchSession = searchManager.submit(
-                    (String) query.get(i),
+                    (String) complete.get(i),
                     VisibleRegionUtils.toPolygon(mapView.getMap().getVisibleRegion()),
                     new SearchOptions(),
                     new Session.SearchListener() {
