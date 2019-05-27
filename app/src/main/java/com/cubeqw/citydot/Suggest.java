@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +35,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetSequence;
 
 
 public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
@@ -93,29 +95,37 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
 
         boolean firstStart = sp.getBoolean(SP_KEY_FIRST_START, true);
         if (firstStart) {
-        int i=0;
-        if (i==0){
-        new MaterialTapTargetPrompt.Builder(this).setBackgroundColour(Color.parseColor("#00B0F0"))
+            final FloatingActionButton a=findViewById(R.id.add);
+            final FloatingActionButton b=findViewById(R.id.fab);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(5000);
+                        a.setClickable(true);
+                        b.setClickable(true);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+            new MaterialTapTargetSequence()
+                    .addPrompt(new MaterialTapTargetPrompt.Builder(Suggest.this)
+                            .setTarget(R.id.ssss)
+                            .setPrimaryText("Как пользоваться списком")
+                            .setSecondaryText("Смахните влево, чтобы изучить место\n" +
+                                    "Смахните вправо, чтобы удалить место из списка, если вы не хотите посещать его\n" +
+                                    "Нажмите на название места, чтобы проложить маршрут или найти его в интернете").setBackgroundColour(Color.parseColor("#00B0F0"))
+                            .create(), 10000).addPrompt(
+            new MaterialTapTargetPrompt.Builder(this).setBackgroundColour(Color.parseColor("#00B0F0"))
                 .setTarget(findViewById(R.id.add))
                 .setPrimaryText("Чего-то не хватает?")
-                .setSecondaryText("Добавте своё место, нажав на эту кнопку")
+                .setSecondaryText("Добавте своё место, нажав на эту кнопку") .create(), 4000).addPrompt(new MaterialTapTargetPrompt.Builder(this).setBackgroundColour(Color.parseColor("#00B0F0"))
+                    .setTarget(findViewById(R.id.swype))
+                    .setPrimaryText("Сначала")
+                    .setSecondaryText("Сделайте свайп вниз, чтобы сбросить статистику"))
                 .show();}
-        i++;
-        if(i==1) {
-        new MaterialTapTargetPrompt.Builder(this).setBackgroundColour(Color.parseColor("#00B0F0"))
-                .setTarget(findViewById(R.id.swype))
-                .setPrimaryText("Сначала")
-                .setSecondaryText("Сделайте свайп вниз, чтобы сбросить статистику")
-                .show();}
-        i++;
-            if(i==2) {
-                new MaterialTapTargetPrompt.Builder(this).setBackgroundColour(Color.parseColor("#00B0F0"))
-                        .setTarget(findViewById(R.id.suggest_result))
-                        .setPrimaryText("Влево, тык, вправо")
-                        .setSecondaryText("Если вы не хотите посещять предложенное место, смахните его вправо\nЧтобы проложить маршрут, нажмите на место\nЧтобы отметится на месте, проведите влево")
-                        .show();}
-        }
-        city_name = getIntent().getStringExtra("city_name");
+       city_name = getIntent().getStringExtra("city_name");
         tv.setText(city_name);
         lat = getIntent().getDoubleExtra("lat", 0);
         lon = getIntent().getDoubleExtra("lon", 0);
@@ -542,6 +552,8 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
     public void onClick(View v) {
         Intent i = new Intent(this, MapsActivity.class);
         startActivity(i);
+        finish();
+
     }
 
     public void onClick2(View v) {
@@ -804,6 +816,8 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
     {
         Intent i = new Intent(this, MapsActivity.class);
         startActivity(i);
+        finish();
+
         super.onBackPressed();
     }
 }

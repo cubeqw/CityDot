@@ -48,6 +48,8 @@ TextView tv;
     public void onClick(View v){
         Intent i=new Intent(this, MapsActivity.class);
         startActivity(i);
+        finish();
+
     }
     protected ArrayAdapter setArrayAdapter(List f) {
 
@@ -61,6 +63,7 @@ TextView tv;
     {
         Intent i = new Intent(this, MapsActivity.class);
         startActivity(i);
+        finish();
         super.onBackPressed();
     }
     @Override

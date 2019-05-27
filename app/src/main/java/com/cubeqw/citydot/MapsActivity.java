@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -49,6 +50,7 @@ import java.util.List;
 import java.util.Locale;
 
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetSequence;
 
 
 public class MapsActivity extends AppCompatActivity implements Session.SearchListener, CameraListener {
@@ -61,6 +63,7 @@ public class MapsActivity extends AppCompatActivity implements Session.SearchLis
     private ArrayList<Object> memorial;
     private ArrayList<Object> moll;
     private ArrayList<Object> square;
+    private Object lock = new Object();
     public static final String SP_NAME = "spNames";
     public static final String SP_KEY_FIRST_START = "spKeyFirstStarts";
     private final String MAPKIT_API_KEY = "67336d59-08cb-47f3-9b18-334860703128";
@@ -73,8 +76,10 @@ public class MapsActivity extends AppCompatActivity implements Session.SearchLis
     private Session searchSession;
     private MapView mapView;
     TextView tv, ma;
+    MaterialTapTargetPrompt mFabPrompt;
     ArrayList al=new ArrayList();
     boolean map_paint=false;
+
     private void submitQuery(List query, List complete) {
         for (int i = 0; i < query.size(); i++) {
             searchSession = searchManager.submit(
@@ -143,7 +148,7 @@ public class MapsActivity extends AppCompatActivity implements Session.SearchLis
                     });
         }}
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate (Bundle savedInstanceState) {
         MapKitFactory.setApiKey(MAPKIT_API_KEY);
         SharedPreferences sp = getSharedPreferences(SP_NAME, MODE_PRIVATE);
         boolean firstStart = sp.getBoolean(SP_KEY_FIRST_START, true);
@@ -153,30 +158,60 @@ public class MapsActivity extends AppCompatActivity implements Session.SearchLis
         setContentView(R.layout.activity_maps);
         coordLayout = findViewById(R.id.maps);
         ma = findViewById(R.id.ma);
+        final FloatingActionButton a=findViewById(R.id.fab);
+        final FloatingActionButton b=findViewById(R.id.s);
         progressBar=findViewById(R.id.number_progress_bar);
         tinydb = new TinyDB(getApplicationContext());
         history= (tinydb.getListObject("history", String.class));
         mapView = findViewById(R.id.mapview);
         mapView.getMap().addCameraListener(this);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         if (firstStart ) {
             sp.edit().putBoolean(SP_KEY_FIRST_START, false).apply();
-int i=0;
-            new MaterialTapTargetPrompt.Builder(this).setBackgroundColour(Color.parseColor("#00B0F0"))
-                    .setTarget(findViewById(R.id.s))
-                    .setPrimaryText("Где я побывал?")
-                    .setSecondaryText("Нажмите на эту кнопку, чтобы попасть в историю посещённых мест")
+            a.setClickable(false);
+            b.setClickable(false);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(5000);
+                        a.setClickable(true);
+                        b.setClickable(true);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+            new MaterialTapTargetSequence()
+                    .addPrompt(new MaterialTapTargetPrompt.Builder(MapsActivity.this)
+                            .setTarget(findViewById(R.id.s))
+                            .setPrimaryText("Где я побывал?")
+                            .setSecondaryText("Нажмите на эту кнопку, чтобы попасть в историю посещённых мест").setBackgroundColour(Color.parseColor("#00B0F0"))
+                            .create(), 4000).addPrompt(new MaterialTapTargetPrompt.Builder(this).setBackgroundColour(Color.parseColor("#00B0F0"))
+                    .setTarget(findViewById(R.id.fab))
+                    .setPrimaryText("Давайте начнём!")
+                    .setSecondaryText("Нажмите на эту кнопку, чтобы получить список мест для вашего города")
+                    .setAutoDismiss(false)
+                    .setAutoFinish(false)
+                    .setCaptureTouchEventOutsidePrompt(true)
+                    .setPromptStateChangeListener(new MaterialTapTargetPrompt.PromptStateChangeListener()
+                    {
+                        @Override
+                        public void onPromptStateChanged(@NonNull MaterialTapTargetPrompt prompt, int state)
+                        {
+                            if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED)
+                            {
+                                prompt.finish();
+                                mFabPrompt = null;
+                            }
+                            else if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED)
+                            {
+                                mFabPrompt = null;
+                            }
+                        }
+                    }))
                     .show();
-            i++;
-            if(i==1) {
-                new MaterialTapTargetPrompt.Builder(this).setBackgroundColour(Color.parseColor("#00B0F0"))
-                        .setTarget(findViewById(R.id.fab))
-                        .setPrimaryText("Давайте начнём!")
-                        .setSecondaryText("Нажмите на эту кнопку, чтобы получить список мест для вашего города")
-                        .show();
-            }
-        }
+             }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1000);
 
@@ -254,7 +289,8 @@ while(map_paint){
 
 public void onClick(View v){
     Intent intent = new Intent(this, History.class);
-    startActivity(intent);}
+    startActivity(intent);
+}
 
 
 
