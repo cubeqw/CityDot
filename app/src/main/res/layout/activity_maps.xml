@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MapsActivity"
     android:id="@+id/maps"
-    android:theme="@style/AppTheme">
+    >
 
     <include layout="@layout/main" />
 

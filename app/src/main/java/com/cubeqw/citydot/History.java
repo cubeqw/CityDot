@@ -2,6 +2,7 @@ package com.cubeqw.citydot;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,8 @@ TextView tv;
         for (int i = history.size()-1; i >=0 ; i--) {
             l.add(history.get(i));
         }
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         resultAdapter=setArrayAdapter(l);
         lv.setAdapter(resultAdapter);
         if (history.size()!=0){

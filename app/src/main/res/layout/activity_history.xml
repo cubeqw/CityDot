@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MapsActivity"
     android:id="@+id/history"
-    android:theme="@style/AppTheme2">
+    >
 
     <include layout="@layout/history" />
 

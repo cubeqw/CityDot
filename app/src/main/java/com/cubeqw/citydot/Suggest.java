@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -67,7 +68,7 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
     protected void onCreate(Bundle savedInstanceState) {
         MapKitFactory.setApiKey(MAPKIT_API_KEY);
         MapKitFactory.initialize(this);
-        setTitle("Добавить место");
+        setTitle("Места поблизости");
         tinydb = new TinyDB(getApplicationContext());
         SearchFactory.initialize(this);
         setContentView(R.layout.activity_suggest);
@@ -87,6 +88,8 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
         SharedPreferences sp = getSharedPreferences(SP_NAME, MODE_PRIVATE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         boolean firstStart = sp.getBoolean(SP_KEY_FIRST_START, true);
         if (firstStart) {
         int i=0;
@@ -201,137 +204,217 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
                 suggestResultView));
         suggestResultView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String texte =museum.get(position)+"";
-                try {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                final AlertDialog.Builder alert = new AlertDialog.Builder(Suggest.this);
+                alert.setTitle("Какое действие выполнить?");
+                final String texte =museum.get(position)+"";
+                alert.setMessage(texte);
+                alert.setPositiveButton("Проложить маршрут", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        try {
 
-                    Uri uri = Uri.parse("yandexmaps://maps.yandex.ru/?text=" + texte);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
-                } catch (android.content.ActivityNotFoundException e) {
-                    Uri uri1 = Uri.parse("http://maps.yandex.ru/?text=" + texte);
-                    Intent intent1 = new Intent(Intent.ACTION_VIEW, uri1);
-                    startActivity(intent1);
-                }
-            }
-
-        });
+                            Uri uri = Uri.parse("yandexmaps://maps.yandex.ru/?text=" + texte);
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        } catch (android.content.ActivityNotFoundException e) {
+                            Uri uri1 = Uri.parse("http://maps.yandex.ru/?text=" + texte);
+                            Intent intent1 = new Intent(Intent.ACTION_VIEW, uri1);
+                            startActivity(intent1);
+                        }}});
+                        alert.setNegativeButton("Найти в интернете", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                Uri uri = Uri.parse("https://yandex.ru/search/?text=" + texte);
+                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                startActivity(intent);
+                            }
+                        });
+                alert.show();
+            }});
         suggestResultView1.setAdapter(resultAdapter1);
         suggestResultView1.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext(),
                 suggestResultView1));
         suggestResultView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String texte =theater.get(position)+"";
-                try {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                final AlertDialog.Builder alert = new AlertDialog.Builder(Suggest.this);
+                alert.setTitle("Какое действие выполнить?");
+                final String texte =theater.get(position)+"";
+                alert.setMessage(texte);
+                alert.setPositiveButton("Проложить маршрут", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        try {
 
-                    Uri uri = Uri.parse("yandexmaps://maps.yandex.ru/?text=" + texte);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
-                } catch (android.content.ActivityNotFoundException e) {
-                    Uri uri1 = Uri.parse("http://maps.yandex.ru/?text=" + texte);
-                    Intent intent1 = new Intent(Intent.ACTION_VIEW, uri1);
-                    startActivity(intent1);
-                }
-            }
-
-        });
+                            Uri uri = Uri.parse("yandexmaps://maps.yandex.ru/?text=" + texte);
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        } catch (android.content.ActivityNotFoundException e) {
+                            Uri uri1 = Uri.parse("http://maps.yandex.ru/?text=" + texte);
+                            Intent intent1 = new Intent(Intent.ACTION_VIEW, uri1);
+                            startActivity(intent1);
+                        }}});
+                alert.setNegativeButton("Найти в интернете", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Uri uri = Uri.parse("https://yandex.ru/search/?text=" + texte);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }
+                });
+                alert.show();
+            }});
         suggestResultView2.setAdapter(resultAdapter2);
         suggestResultView2.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext(),
                 suggestResultView2));
-        suggestResultView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String texte =cinema.get(position)+"";
-                try {
+        suggestResultView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {  @Override
+        public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+            final AlertDialog.Builder alert = new AlertDialog.Builder(Suggest.this);
+            alert.setTitle("Какое действие выполнить?");
+            final String texte =cinema.get(position)+"";
+            alert.setMessage(texte);
+            alert.setPositiveButton("Проложить маршрут", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    try {
 
-                    Uri uri = Uri.parse("yandexmaps://maps.yandex.ru/?text=" + texte);
+                        Uri uri = Uri.parse("yandexmaps://maps.yandex.ru/?text=" + texte);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    } catch (android.content.ActivityNotFoundException e) {
+                        Uri uri1 = Uri.parse("http://maps.yandex.ru/?text=" + texte);
+                        Intent intent1 = new Intent(Intent.ACTION_VIEW, uri1);
+                        startActivity(intent1);
+                    }}});
+            alert.setNegativeButton("Найти в интернете", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    Uri uri = Uri.parse("https://yandex.ru/search/?text=" + texte);
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
-                } catch (android.content.ActivityNotFoundException e) {
-                    Uri uri1 = Uri.parse("http://maps.yandex.ru/?text=" + texte);
-                    Intent intent1 = new Intent(Intent.ACTION_VIEW, uri1);
-                    startActivity(intent1);
                 }
-            }
-
-        });
+            });
+            alert.show();
+        }});
         suggestResultView3.setAdapter(resultAdapter3);
         suggestResultView3.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext(),
                 suggestResultView3));
         suggestResultView3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String texte =memorial.get(position)+"";
-                try {
-                    Uri uri = Uri.parse("yandexmaps://maps.yandex.ru/?text=" + texte);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
-                } catch (android.content.ActivityNotFoundException e) {
-                    Uri uri1 = Uri.parse("http://maps.yandex.ru/?text=" + texte);
-                    Intent intent1 = new Intent(Intent.ACTION_VIEW, uri1);
-                    startActivity(intent1);
-                }
-            }
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                final AlertDialog.Builder alert = new AlertDialog.Builder(Suggest.this);
+                alert.setTitle("Какое действие выполнить?");
+                final String texte =memorial.get(position)+"";
+                alert.setMessage(texte);
+                alert.setPositiveButton("Проложить маршрут", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        try {
 
-        });
+                            Uri uri = Uri.parse("yandexmaps://maps.yandex.ru/?text=" + texte);
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        } catch (android.content.ActivityNotFoundException e) {
+                            Uri uri1 = Uri.parse("http://maps.yandex.ru/?text=" + texte);
+                            Intent intent1 = new Intent(Intent.ACTION_VIEW, uri1);
+                            startActivity(intent1);
+                        }}});
+                alert.setNegativeButton("Найти в интернете", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Uri uri = Uri.parse("https://yandex.ru/search/?text=" + texte);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }
+                });
+                alert.show();
+            }});
         sv4.setAdapter(ra4);
         sv4.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext(),
                 sv4));
         sv4.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String texte =square.get(position)+"";
-                try {
-                    Uri uri = Uri.parse("yandexmaps://maps.yandex.ru/?text=" + texte);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
-                } catch (android.content.ActivityNotFoundException e) {
-                    Uri uri1 = Uri.parse("http://maps.yandex.ru/?text=" + texte);
-                    Intent intent1 = new Intent(Intent.ACTION_VIEW, uri1);
-                    startActivity(intent1);
-                }
-            }
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                final AlertDialog.Builder alert = new AlertDialog.Builder(Suggest.this);
+                alert.setTitle("Какое действие выполнить?");
+                final String texte =square.get(position)+"";
+                alert.setMessage(texte);
+                alert.setPositiveButton("Проложить маршрут", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        try {
 
-        });
+                            Uri uri = Uri.parse("yandexmaps://maps.yandex.ru/?text=" + texte);
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        } catch (android.content.ActivityNotFoundException e) {
+                            Uri uri1 = Uri.parse("http://maps.yandex.ru/?text=" + texte);
+                            Intent intent1 = new Intent(Intent.ACTION_VIEW, uri1);
+                            startActivity(intent1);
+                        }}});
+                alert.setNegativeButton("Найти в интернете", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Uri uri = Uri.parse("https://yandex.ru/search/?text=" + texte);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }
+                });
+                alert.show();
+            }});
         sv5.setAdapter(ra5);
         sv5.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext(),
                 sv5));
         sv5.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String texte =moll.get(position)+"";
-                try {
-                    Uri uri = Uri.parse("yandexmaps://maps.yandex.ru/?text=" + texte);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
-                } catch (android.content.ActivityNotFoundException e) {
-                    Uri uri1 = Uri.parse("http://maps.yandex.ru/?text=" + texte);
-                    Intent intent1 = new Intent(Intent.ACTION_VIEW, uri1);
-                    startActivity(intent1);
-                }
-            }
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                final AlertDialog.Builder alert = new AlertDialog.Builder(Suggest.this);
+                alert.setTitle("Какое действие выполнить?");
+                final String texte =moll.get(position)+"";
+                alert.setMessage(texte);
+                alert.setPositiveButton("Проложить маршрут", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        try {
 
-        });
+                            Uri uri = Uri.parse("yandexmaps://maps.yandex.ru/?text=" + texte);
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        } catch (android.content.ActivityNotFoundException e) {
+                            Uri uri1 = Uri.parse("http://maps.yandex.ru/?text=" + texte);
+                            Intent intent1 = new Intent(Intent.ACTION_VIEW, uri1);
+                            startActivity(intent1);
+                        }}});
+                alert.setNegativeButton("Найти в интернете", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Uri uri = Uri.parse("https://yandex.ru/search/?text=" + texte);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }
+                });
+                alert.show();
+            }});
         sv6.setAdapter(ra6);
         sv6.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext(),
                 sv6));
         sv6.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String texte =otherplace.get(position)+"";
-                try {
-                    Uri uri = Uri.parse("yandexmaps://maps.yandex.ru/?text=" + texte);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
-                } catch (android.content.ActivityNotFoundException e) {
-                    Uri uri1 = Uri.parse("http://maps.yandex.ru/?text=" + texte);
-                    Intent intent1 = new Intent(Intent.ACTION_VIEW, uri1);
-                    startActivity(intent1);
-                }
-            }
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                final AlertDialog.Builder alert = new AlertDialog.Builder(Suggest.this);
+                alert.setTitle("Какое действие выполнить?");
+                final String texte =otherplace.get(position)+"";
+                alert.setMessage(texte);
+                alert.setPositiveButton("Проложить маршрут", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        try {
 
-        });
+                            Uri uri = Uri.parse("yandexmaps://maps.yandex.ru/?text=" + texte);
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        } catch (android.content.ActivityNotFoundException e) {
+                            Uri uri1 = Uri.parse("http://maps.yandex.ru/?text=" + texte);
+                            Intent intent1 = new Intent(Intent.ACTION_VIEW, uri1);
+                            startActivity(intent1);
+                        }}});
+                alert.setNegativeButton("Найти в интернете", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Uri uri = Uri.parse("https://yandex.ru/search/?text=" + texte);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }
+                });
+                alert.show();
+            }});
     }
 
 
@@ -432,7 +515,6 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
                                                 ra6.notifyDataSetChanged();
                                                 other.setText("");
                                                 mSwipeRefreshLayout.setRefreshing(false);
-                                                recreate();
                                             }
                                         });
                                     }

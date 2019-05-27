@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MapsActivity"
     android:id="@+id/suggests"
-    android:theme="@style/AppTheme3"
     >
 <TextView
     android:layout_width="match_parent"

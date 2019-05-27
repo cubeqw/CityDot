@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -21,7 +22,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.yandex.mapkit.GeoObjectCollection;
@@ -131,6 +131,8 @@ public class MapsActivity extends AppCompatActivity implements Session.SearchLis
         history= (tinydb.getListObject("history", String.class));
         mapView = findViewById(R.id.mapview);
         mapView.getMap().addCameraListener(this);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         if (firstStart ) {
             sp.edit().putBoolean(SP_KEY_FIRST_START, false).apply();
 int i=0;
