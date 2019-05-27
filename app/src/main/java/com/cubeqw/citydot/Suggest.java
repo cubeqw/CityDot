@@ -13,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -545,10 +546,12 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
 
     public void onClick2(View v) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        final EditText edittext = new EditText(getApplicationContext());
-        edittext.setHint("Введите название вашего места");
         alert.setTitle("Добавить место");
-        alert.setView(edittext);
+        alert.setView(R.layout.edittext);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.edittext, null);
+        final EditText edittext =dialogView.findViewById(R.id.et);
+        alert.setView(dialogView);
         alert.setPositiveButton("Добавить", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String input = edittext.getText().toString();

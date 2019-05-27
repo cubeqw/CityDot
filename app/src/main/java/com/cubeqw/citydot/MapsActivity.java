@@ -81,7 +81,34 @@ public class MapsActivity extends AppCompatActivity implements Session.SearchLis
                     (String) query.get(i),
                     VisibleRegionUtils.toPolygon(mapView.getMap().getVisibleRegion()),
                     new SearchOptions(),
-                    this);
+                    new Session.SearchListener() {
+                        @Override
+                        public void onSearchResponse(@NonNull Response response) {
+                            MapObjectCollection mapObjects = mapView.getMap().getMapObjects();
+                            if(f){
+                                mapObjects.clear();
+                                f=false;
+                                mapView.onStop();
+                                MapKitFactory.getInstance().onStop();
+                                MapKitFactory.getInstance().onStart();
+                                mapView.onStart();}
+                            for (GeoObjectCollection.Item searchResult : response.getCollection().getChildren()) {
+                                Point resultLocation = searchResult.getObj().getGeometry().get(0).getPoint();
+
+                                if (resultLocation != null) {
+                                    mapObjects.addPlacemark(
+                                            resultLocation,
+                                            ImageProvider.fromResource(getApplicationContext(), R.drawable.search_result));
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onSearchError(@NonNull Error error) {
+                            Snackbar.make(coordLayout, "Не удаётся подключится", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }
+                    });
         }  for (int i = 0; i < complete.size(); i++) {
             searchSession = searchManager.submit(
                     (String) complete.get(i),
