@@ -80,6 +80,7 @@ TextView tv;
                                 l.clear();
                                 tinydb.remove("history");
                                 resultAdapter.notifyDataSetChanged();
+                                tv.setText("Вы не посетили ни одного места");
                             }
                         });
 

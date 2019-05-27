@@ -124,8 +124,9 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
         sv4 = findViewById(R.id.suggest_result6);
         sv6 = findViewById(R.id.suggest_result7);
         history= (tinydb.getListObject("history", String.class));
+        otherplace= (tinydb.getListObject("other", String.class));
         String scity = tinydb.getString("city");
-        if (firstStart || !(city_name.equals(scity))||history.size()==0) {
+        if (firstStart || !(city_name.equals(scity))||(history.size()==0&&otherplace.size()==0)) {
             sp.edit().putBoolean(SP_KEY_FIRST_START, false).apply();
             tinydb.putString("city", city_name);
             Toast.makeText(getApplicationContext(), "Обновление списка мест...", Toast.LENGTH_LONG).show();
@@ -371,7 +372,7 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
     }
 
     protected void update() {
-        if (!(museum.size() == 0 && memorial.size() == 0 && square.size() == 0 && theater.size() == 0 && cinema.size() == 0 && moll.size() == 0)) {
+        if (!(museum.size() == 0 && memorial.size() == 0 && square.size() == 0 && theater.size() == 0 && cinema.size() == 0 && moll.size() == 0&&otherplace.size()==0)) {
             tinydb.putListObject("museum", museum);
             tinydb.putListObject("memorial", memorial);
             tinydb.putListObject("theater", theater);
