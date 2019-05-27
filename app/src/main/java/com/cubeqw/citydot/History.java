@@ -40,6 +40,7 @@ TextView tv;
         if (history.size()!=0){
     tv.setText("Вы побывали:");
 }
+        else {tv.setText("Вы не посетили ни одного места");}
     }
     public void onClick(View v){
         Intent i=new Intent(this, MapsActivity.class);
