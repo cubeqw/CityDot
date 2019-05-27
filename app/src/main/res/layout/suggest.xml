@@ -33,6 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Музеи"
+                    android:id="@+id/mus"
                     android:textSize="20sp"
                     android:textColor="#696969"
                     android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"/>
@@ -45,6 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Театры"
+                    android:id="@+id/thr"
                     android:textSize="20sp"
                     android:textColor="#A0522D"
                     android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"/>
@@ -57,6 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Кинотеатры"
+                    android:id="@+id/cin"
                     android:textSize="20sp"
                     android:textColor="#DC143C"
                     android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"/>
@@ -70,6 +73,7 @@
                     android:layout_height="wrap_content"
                     android:text="Скульптуры"
                     android:textSize="20sp"
+                    android:id="@+id/mem"
                     android:textColor="#4B0082"
                     android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"/>
                 <com.cubeqw.citydot.ScrollableListView
@@ -83,6 +87,7 @@
                     android:text="Торговые центры"
                     android:textColor="#FF8C00"
                     android:textSize="20sp"
+                    android:id="@+id/moll"
                     android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"/>
                 <com.cubeqw.citydot.ScrollableListView
                     android:id="@+id/suggest_result5"
@@ -94,6 +99,7 @@
                     android:layout_height="wrap_content"
                     android:text="Парки"
                     android:textColor="#228B22"
+                    android:id="@+id/sqr"
                     android:textSize="20sp"
                     android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"/>
                 <com.cubeqw.citydot.ScrollableListView

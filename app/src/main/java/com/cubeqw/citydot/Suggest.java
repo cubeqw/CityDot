@@ -37,7 +37,7 @@ import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     String city_name;
-    TextView tv, other;
+   private TextView tv, other;
     double lat, lon;
     private final String MAPKIT_API_KEY = "67336d59-08cb-47f3-9b18-334860703128";
     private SearchManager searchManager;
@@ -50,6 +50,12 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
     public ArrayList<Object> memorial;
     public ArrayList<Object> moll;
     public ArrayList<Object> square;
+    private TextView tvmus;
+    private TextView tvmem;
+    private TextView tvcin;
+    private TextView tvmoll;
+    private TextView tvthr;
+    private TextView tvsqr;
     public ArrayList<Object> history=new ArrayList<>();
     public ArrayList<Object> otherplace = new ArrayList<>();
     public static final String SP_NAME = "spName";
@@ -67,8 +73,13 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
         setContentView(R.layout.activity_suggest);
         super.onCreate(savedInstanceState);
         tv = findViewById(R.id.tv);
-
+        tvmus=findViewById(R.id.mus);
+        tvcin=findViewById(R.id.cin);
+        tvmoll=findViewById(R.id.moll);
+        tvmem=findViewById(R.id.mem);
+        tvsqr=findViewById(R.id.sqr);
         other = findViewById(R.id.other);
+        tvthr=findViewById(R.id.thr);
         mSwipeRefreshLayout = findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -114,7 +125,7 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
         sv6 = findViewById(R.id.suggest_result7);
         history= (tinydb.getListObject("history", String.class));
         String scity = tinydb.getString("city");
-        if (firstStart || !(city_name.equals(scity))) {
+        if (firstStart || !(city_name.equals(scity))||history.size()==0) {
             sp.edit().putBoolean(SP_KEY_FIRST_START, false).apply();
             tinydb.putString("city", city_name);
             Toast.makeText(getApplicationContext(), "Обновление списка мест...", Toast.LENGTH_LONG).show();
@@ -153,6 +164,7 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
             };
             thread.start();
         } else {
+
             museum = (tinydb.getListObject("museum", String.class));
             memorial = (tinydb.getListObject("memorial", String.class));
             square = (tinydb.getListObject("square", String.class));
@@ -160,7 +172,19 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
             cinema = (tinydb.getListObject("cinema", String.class));
             moll = (tinydb.getListObject("moll", String.class));
             otherplace = (tinydb.getListObject("other", String.class));
-        }
+            if (museum.size()==0){
+                tvmus.setText("Вы изучили все музеи");
+            }if (memorial.size()==0){
+                tvmem.setText("Вы изучили все скульптуры");
+            }if (square.size()==0){
+                tvsqr.setText("Вы изучили все парки");
+            }if (cinema.size()==0){
+                tvcin.setText("Вы изучили все кинотеатры");
+            }if (moll.size()==0){
+                tvmoll.setText("Вы изучили все ТЦ");
+     }if (theater.size()==0){
+                tvthr.setText("Вы изучили все театры");
+     }}
         if (otherplace.size() != 0) {
             other.setText("Другие места");
         }
@@ -492,42 +516,64 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
                 museum.remove(pos);
                 resultAdapter.notifyDataSetChanged();
                 update();
+                if (museum.size()==0){
+                    tvmus.setText("Вы изучили все музеи");
+                }
             }
             if(list.getAdapter()==resultAdapter1){
                 Toast.makeText(getApplicationContext(),"Место "+theater.get(pos)+" удалено", Toast.LENGTH_SHORT).show();
                 theater.remove(pos);
                 resultAdapter1.notifyDataSetChanged();
                 update();
+                if (theater.size()==0){
+                    tvthr.setText("Вы изучили все театры");
+                }
             }
             if(list.getAdapter()==resultAdapter2){
                 Toast.makeText(getApplicationContext(),"Место "+cinema.get(pos)+" удалено", Toast.LENGTH_SHORT).show();
                 cinema.remove(pos);
                 resultAdapter2.notifyDataSetChanged();
                 update();
+                if (cinema.size()==0){
+                    tvcin.setText("Вы изучили все кинотеатры");
+                }
             }
             if(list.getAdapter()==resultAdapter3){
                 Toast.makeText(getApplicationContext(),"Место "+memorial.get(pos)+" удалено", Toast.LENGTH_SHORT).show();
                 memorial.remove(pos);
                 resultAdapter3.notifyDataSetChanged();
                 update();
+                if (memorial.size()==0){
+                    tvmem.setText("Вы изучили все скульптуры");
+                }
             }
             if(list.getAdapter()==ra4){
                 Toast.makeText(getApplicationContext(),"Место "+square.get(pos)+" удалено", Toast.LENGTH_SHORT).show();
                 square.remove(pos);
                 ra4.notifyDataSetChanged();
                 update();
+                if (square.size()==0){
+                    tvsqr.setText("Вы изучили все парки");
+                }
             }
             if(list.getAdapter()==ra5){
                 Toast.makeText(getApplicationContext(),"Место "+moll.get(pos)+" удалено", Toast.LENGTH_SHORT).show();
                 moll.remove(pos);
                 ra5.notifyDataSetChanged();
                 update();
+                    if (moll.size()==0){
+                        tvmoll.setText("Вы изучили все ТЦ");
+                    }
+
             }
             if(list.getAdapter()==ra6){
                 Toast.makeText(getApplicationContext(),"Место "+otherplace.get(pos)+" удалено", Toast.LENGTH_SHORT).show();
                 otherplace.remove(pos);
                 ra6.notifyDataSetChanged();
                 update();
+                if (otherplace.size()==0){
+                    tvmoll.setText("");
+                }
             }
         }
 
@@ -543,6 +589,9 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
                 museum.remove(pos);
                 resultAdapter.notifyDataSetChanged();
                 update();
+                if (museum.size()==0){
+                    tvmus.setText("Вы изучили все музеи");
+                }
             }
             if(list.getAdapter()==resultAdapter1){
                 Calendar cal = Calendar.getInstance();
@@ -554,6 +603,10 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
                 theater.remove(pos);
                 resultAdapter1.notifyDataSetChanged();
                 update();
+                if (theater.size()==0){
+                    tvthr.setText("Вы изучили все театры");
+                }
+
             }
             if(list.getAdapter()==resultAdapter2){
                 Calendar cal = Calendar.getInstance();
@@ -565,6 +618,9 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
                 cinema.remove(pos);
                 resultAdapter2.notifyDataSetChanged();
                 update();
+                if (cinema.size()==0){
+                    tvcin.setText("Вы изучили все кинотеатры");
+                }
             }
             if(list.getAdapter()==resultAdapter3){
                 Calendar cal = Calendar.getInstance();
@@ -576,6 +632,9 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
                 memorial.remove(pos);
                 resultAdapter3.notifyDataSetChanged();
                 update();
+                if (memorial.size()==0){
+                    tvmem.setText("Вы изучили все ТЦ");
+                }
             }
             if(list.getAdapter()==ra4){
                 Calendar cal = Calendar.getInstance();
@@ -587,6 +646,9 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
                 square.remove(pos);
                 ra4.notifyDataSetChanged();
                 update();
+                if (square.size()==0){
+                    tvsqr.setText("Вы изучили все парки");
+                }
             }
             if(list.getAdapter()==ra5){
                 Calendar cal = Calendar.getInstance();
@@ -598,6 +660,9 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
                 moll.remove(pos);
                 ra5.notifyDataSetChanged();
                 update();
+                if (moll.size()==0){
+                    tvmoll.setText("Вы изучили все ТЦ");
+                }
             }
             if(list.getAdapter()==ra6){
                 Calendar cal = Calendar.getInstance();
@@ -609,6 +674,9 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
                 otherplace.remove(pos);
                 ra6.notifyDataSetChanged();
                 update();
+                if (otherplace.size()==0){
+                    other.setText("");
+                }
             }
         }
 

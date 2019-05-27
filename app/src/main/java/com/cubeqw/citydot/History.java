@@ -1,8 +1,12 @@
 package com.cubeqw.citydot;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -14,6 +18,7 @@ import java.util.List;
 public class History extends AppCompatActivity {
     protected ArrayAdapter resultAdapter;
     ListView lv;
+    ArrayList<Object> l=new ArrayList<>();
     public ArrayList<Object> history=new ArrayList<>();
 TinyDB tinydb;
 TextView tv;
@@ -27,7 +32,6 @@ TextView tv;
         lv=findViewById(R.id.lv);
         tinydb = new TinyDB(getApplicationContext());
         history= (tinydb.getListObject("history", String.class));
-        ArrayList<Object> l=new ArrayList<>();
         for (int i = history.size()-1; i >=0 ; i--) {
             l.add(history.get(i));
         }
@@ -54,5 +58,38 @@ TextView tv;
         Intent i = new Intent(this, MapsActivity.class);
         startActivity(i);
         super.onBackPressed();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_history, menu);
+        return true;    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.clear:
+                final View v = new View(this);
+                        AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
+                        alert.setMessage("Вы действительно хотите очистить истортю посещённых мест?");
+                        alert.setTitle("Сброс");
+                        alert.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                history.clear();
+                                l.clear();
+                                tinydb.remove("history");
+                                resultAdapter.notifyDataSetChanged();
+                            }
+                        });
+
+                        alert.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                            }
+                        });
+                        alert.show();
+                return true;
+            default:return super.onOptionsItemSelected(item);
+        }
     }
 }
