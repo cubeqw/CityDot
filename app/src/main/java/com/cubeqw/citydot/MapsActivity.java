@@ -168,25 +168,27 @@ public class MapsActivity extends AppCompatActivity implements Session.SearchLis
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         if (firstStart ) {
             sp.edit().putBoolean(SP_KEY_FIRST_START, false).apply();
-            a.setClickable(false);
-            b.setClickable(false);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(5000);
-                        a.setClickable(true);
-                        b.setClickable(true);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
             new MaterialTapTargetSequence()
                     .addPrompt(new MaterialTapTargetPrompt.Builder(MapsActivity.this)
                             .setTarget(findViewById(R.id.s))
                             .setPrimaryText("Где я побывал?")
-                            .setSecondaryText("Нажмите на эту кнопку, чтобы попасть в историю посещённых мест").setBackgroundColour(Color.parseColor("#00B0F0"))
+                            .setSecondaryText("Нажмите на эту кнопку, чтобы попасть в историю посещённых мест").setBackgroundColour(Color.parseColor("#00B0F0")).setCaptureTouchEventOutsidePrompt(true)
+                            .setPromptStateChangeListener(new MaterialTapTargetPrompt.PromptStateChangeListener()
+                            {
+                                @Override
+                                public void onPromptStateChanged(@NonNull MaterialTapTargetPrompt prompt, int state)
+                                {
+                                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED)
+                                    {
+                                        prompt.finish();
+                                        mFabPrompt = null;
+                                    }
+                                    else if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED)
+                                    {
+                                        mFabPrompt = null;
+                                    }
+                                }
+                            })
                             .create(), 4000).addPrompt(new MaterialTapTargetPrompt.Builder(this).setBackgroundColour(Color.parseColor("#00B0F0"))
                     .setTarget(findViewById(R.id.fab))
                     .setPrimaryText("Давайте начнём!")

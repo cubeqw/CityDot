@@ -9,10 +9,15 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -55,6 +60,7 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
     public ArrayList<Object> moll;
     public ArrayList<Object> square;
     private TextView tvmus;
+    MaterialTapTargetPrompt mFabPrompt;
     private TextView tvmem;
     private TextView tvcin;
     private TextView tvmoll;
@@ -109,18 +115,47 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
                     }
                 }
             }).start();
+            SpannableStringBuilder secondaryText = new SpannableStringBuilder(
+                    "Смахните влево, чтобы изучить место\n" +
+                            "Смахните вправо, чтобы удалить место из списка, если вы не хотите посещать его\n" +
+                            "Нажмите на название места, чтобы проложить маршрут или найти его в интернете");
+            secondaryText.setSpan(
+                    new BackgroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary)),
+                    0, 191, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+            SpannableStringBuilder primaryText = new SpannableStringBuilder(
+                    "Как пользоваться списком");
+            primaryText.setSpan(
+                    new BackgroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary)),
+                    0, 24, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             new MaterialTapTargetSequence()
                     .addPrompt(new MaterialTapTargetPrompt.Builder(Suggest.this)
                             .setTarget(R.id.ssss)
-                            .setPrimaryText("Как пользоваться списком")
-                            .setSecondaryText("Смахните влево, чтобы изучить место\n" +
-                                    "Смахните вправо, чтобы удалить место из списка, если вы не хотите посещать его\n" +
-                                    "Нажмите на название места, чтобы проложить маршрут или найти его в интернете").setBackgroundColour(Color.parseColor("#00B0F0"))
+                            .setPrimaryText(primaryText)
+                            .setSecondaryText(secondaryText).setBackgroundColour(Color.parseColor("#00B0F0"))                    .setAutoDismiss(false)
+                            .setCaptureTouchEventOutsidePrompt(true)
+                            .setPromptStateChangeListener(new MaterialTapTargetPrompt.PromptStateChangeListener()
+                            {
+                                @Override
+                                public void onPromptStateChanged(@NonNull MaterialTapTargetPrompt prompt, int state)
+                                {
+                                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED)
+                                    {
+                                        prompt.finish();
+                                        mFabPrompt = null;
+                                    }
+                                    else if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED)
+                                    {
+                                        mFabPrompt = null;
+                                    }
+                                }
+                            })
                             .create(), 10000).addPrompt(
             new MaterialTapTargetPrompt.Builder(this).setBackgroundColour(Color.parseColor("#00B0F0"))
                 .setTarget(findViewById(R.id.add))
                 .setPrimaryText("Чего-то не хватает?")
-                .setSecondaryText("Добавте своё место, нажав на эту кнопку") .create(), 4000).addPrompt(new MaterialTapTargetPrompt.Builder(this).setBackgroundColour(Color.parseColor("#00B0F0"))
+                .setSecondaryText("Добавте своё место, нажав на эту кнопку").                    setAutoDismiss(false)
+                    .create(), 4000).addPrompt(new MaterialTapTargetPrompt.Builder(this).setBackgroundColour(Color.parseColor("#00B0F0"))
                     .setTarget(findViewById(R.id.swype))
                     .setPrimaryText("Сначала")
                     .setSecondaryText("Сделайте свайп вниз, чтобы сбросить статистику"))
