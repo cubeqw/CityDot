@@ -30,7 +30,6 @@ dependencies {
     compile 'com.yandex.android:mapkit:3.3.1'
     compile 'com.yandex.android:search:3.3.1'
     compile 'com.daimajia.numberprogressbar:library:1.4@aar'
-    compile 'com.github.delight-im:Android-SimpleLocation:v1.0.1'
 }
 
 dependencies {
