@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MapsActivity"
     android:id="@+id/suggests"
+    android:background="#FFFFFF"
     >
 <TextView
     android:layout_width="match_parent"

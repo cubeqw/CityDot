@@ -1,5 +1,6 @@
 package com.cubeqw.citydot;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -643,173 +644,514 @@ public class Suggest extends AppCompatActivity implements SwipeRefreshLayout.OnR
 
         }
 
-        public void onSwipeRight(int pos) {
+        @SuppressLint("ResourceAsColor")
+        public void onSwipeRight(final int pos) {
             if(list.getAdapter()==resultAdapter){
-                Toast.makeText(getApplicationContext(),"Место "+museum.get(pos)+" удалено", Toast.LENGTH_SHORT).show();
-                museum.remove(pos);
+                String s= String.valueOf(museum.get(pos));
+                museum.set(pos,"Место "+s+" удалено");
+                suggestResultView.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFEF5350"));
+                suggestResultView.setClickable(false);
                 resultAdapter.notifyDataSetChanged();
-                update();
-                if (museum.size()==0){
-                    tvmus.setText("Вы изучили все музеи");
-                }
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            synchronized (this) {
+                                wait(1000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        museum.remove(pos);
+                                        resultAdapter.notifyDataSetChanged();
+                                        suggestResultView.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                        update();
+                                        suggestResultView.setClickable(true);
+
+                                        if (museum.size()==0){
+                                            tvmus.setText("Вы изучили все музеи");
+                                        }
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();
             }
             if(list.getAdapter()==resultAdapter1){
-                Toast.makeText(getApplicationContext(),"Место "+theater.get(pos)+" удалено", Toast.LENGTH_SHORT).show();
-                theater.remove(pos);
+                String s= String.valueOf(theater.get(pos));
+                theater.set(pos,"Место "+s+" удалено");
+                suggestResultView1.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFEF5350"));
                 resultAdapter1.notifyDataSetChanged();
-                update();
-                if (theater.size()==0){
-                    tvthr.setText("Вы изучили все театры");
-                }
+                suggestResultView1.setClickable(false);
+
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            synchronized (this) {
+                                wait(1000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        theater.remove(pos);
+                                        resultAdapter1.notifyDataSetChanged();
+                                        suggestResultView1.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                        update();
+                                        if (theater.size()==0){
+                                            tvthr.setText("Вы изучили все театры");
+                                        }
+                                        suggestResultView1.setClickable(true);
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();
             }
             if(list.getAdapter()==resultAdapter2){
-                Toast.makeText(getApplicationContext(),"Место "+cinema.get(pos)+" удалено", Toast.LENGTH_SHORT).show();
-                cinema.remove(pos);
+                String s= String.valueOf(cinema.get(pos));
+                cinema.set(pos,"Место "+s+" удалено");
+                suggestResultView2.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFEF5350"));
                 resultAdapter2.notifyDataSetChanged();
-                update();
-                if (cinema.size()==0){
-                    tvcin.setText("Вы изучили все кинотеатры");
-                }
+                suggestResultView2.setClickable(false);
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            synchronized (this) {
+                                wait(1000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        cinema.remove(pos);
+                                        resultAdapter2.notifyDataSetChanged();
+                                        suggestResultView2.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                        update();
+                                        suggestResultView2.setClickable(true);
+
+                                        if (cinema.size()==0){
+                                            tvcin.setText("Вы изучили все кинотеатры");
+                                        }
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();
             }
             if(list.getAdapter()==resultAdapter3){
-                Toast.makeText(getApplicationContext(),"Место "+memorial.get(pos)+" удалено", Toast.LENGTH_SHORT).show();
-                memorial.remove(pos);
+                String s= String.valueOf(memorial.get(pos));
+                memorial.set(pos,"Место "+s+" удалено");
+                suggestResultView3.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFEF5350"));
                 resultAdapter3.notifyDataSetChanged();
-                update();
-                if (memorial.size()==0){
-                    tvmem.setText("Вы изучили все скульптуры");
-                }
+                suggestResultView3.setClickable(false);
+
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            synchronized (this) {
+                                wait(1000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        memorial.remove(pos);
+                                        resultAdapter3.notifyDataSetChanged();
+                                        suggestResultView3.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                        update();
+                                        suggestResultView3.setClickable(true);
+                                        if (memorial.size()==0){
+                                            tvmem.setText("Вы изучили все скульптуры");
+                                        }
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();
             }
             if(list.getAdapter()==ra4){
-                Toast.makeText(getApplicationContext(),"Место "+square.get(pos)+" удалено", Toast.LENGTH_SHORT).show();
-                square.remove(pos);
+                String s= String.valueOf(square.get(pos));
+                square.set(pos,"Место "+s+" удалено");
+                sv4.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFEF5350"));
                 ra4.notifyDataSetChanged();
-                update();
-                if (square.size()==0){
-                    tvsqr.setText("Вы изучили все парки");
-                }
+                sv4.setClickable(false);
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            synchronized (this) {
+                                wait(1000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        square.remove(pos);
+                                        ra4.notifyDataSetChanged();
+                                        sv4.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                        update();
+                                        sv5.setClickable(true);
+                                        if (square.size()==0){
+                                            tvsqr.setText("Вы изучили все парки");
+                                        }
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();
             }
             if(list.getAdapter()==ra5){
-                Toast.makeText(getApplicationContext(),"Место "+moll.get(pos)+" удалено", Toast.LENGTH_SHORT).show();
-                moll.remove(pos);
+                String s= String.valueOf(moll.get(pos));
+                moll.set(pos,"Место "+s+" удалено");
+                sv5.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFEF5350"));
                 ra5.notifyDataSetChanged();
-                update();
-                    if (moll.size()==0){
-                        tvmoll.setText("Вы изучили все ТЦ");
+                sv5.setClickable(false);
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            synchronized (this) {
+                                wait(1000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        moll.remove(pos);
+                                        ra5.notifyDataSetChanged();
+                                        sv5.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                        update();
+                                        sv5.setClickable(true);
+                                        if (moll.size()==0){
+                                            tvmoll.setText("Вы изучили все торговые центры");
+                                        }
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
-
+                };
+                thread.start();
             }
             if(list.getAdapter()==ra6){
-                Toast.makeText(getApplicationContext(),"Место "+otherplace.get(pos)+" удалено", Toast.LENGTH_SHORT).show();
-                otherplace.remove(pos);
+                String s= String.valueOf(otherplace.get(pos));
+                otherplace.set(pos,"Место "+s+" удалено");
+                sv6.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFEF5350"));
                 ra6.notifyDataSetChanged();
-                update();
-                if (otherplace.size()==0){
-                    tvmoll.setText("");
-                }
-            }
+                sv6.setClickable(false);
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            synchronized (this) {
+                                wait(1000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        otherplace.remove(pos);
+                                        ra6.notifyDataSetChanged();
+                                        sv6.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                        sv6.setClickable(true);
+                                        update();
+                                        if (otherplace.size()==0){
+                                            other.setText("");
+                                        }
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();
+        }
         }
 
 
-        public void onSwipeLeft(int pos) {
+        public void onSwipeLeft(final int pos) {
             if(list.getAdapter()==resultAdapter){
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.DATE, 1);
                 SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
                 String formatted =museum.get(pos).toString()+'\n'+ format1.format(cal.getTime());
-                Toast.makeText(getApplicationContext(),"Место "+museum.get(pos)+" изучено "+format1.format(cal.getTime()), Toast.LENGTH_SHORT).show();
-                        history.add(formatted);
-                museum.remove(pos);
+                history.add(formatted);
+                String s= String.valueOf(museum.get(pos));
+                museum.set(pos,"Место "+s+" изучено");
+                suggestResultView.getChildAt(pos).setBackgroundColor(Color.parseColor("#FF66BB6A"));
                 resultAdapter.notifyDataSetChanged();
-                update();
-                if (museum.size()==0){
-                    tvmus.setText("Вы изучили все музеи");
-                }
+                suggestResultView.setClickable(false);
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            synchronized (this) {
+                                wait(1000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        museum.remove(pos);
+                                        resultAdapter.notifyDataSetChanged();
+                                        suggestResultView.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                        suggestResultView.setClickable(true);
+                                        update();
+                                        if (museum.size()==0){
+                                            tvmus.setText("Вы изучили все музеи");
+                                        }
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();
             }
             if(list.getAdapter()==resultAdapter1){
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.DATE, 1);
                 SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
                 String formatted =theater.get(pos).toString()+'\n'+ format1.format(cal.getTime());
-                Toast.makeText(getApplicationContext(),"Место "+theater.get(pos)+" изучено "+format1.format(cal.getTime()), Toast.LENGTH_SHORT).show();
-                        history.add(formatted);
-                theater.remove(pos);
+                history.add(formatted);
+                String s= String.valueOf(theater.get(pos));
+                theater.set(pos,"Место "+s+" изучено");
+                suggestResultView1.getChildAt(pos).setBackgroundColor(Color.parseColor("#FF66BB6A"));
                 resultAdapter1.notifyDataSetChanged();
-                update();
-                if (theater.size()==0){
-                    tvthr.setText("Вы изучили все театры");
-                }
-
+                suggestResultView1.setClickable(false);
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            synchronized (this) {
+                                wait(1000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        theater.remove(pos);
+                                        resultAdapter1.notifyDataSetChanged();
+                                        suggestResultView1.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                        suggestResultView1.setClickable(true);
+                                        update();
+                                        if (theater.size()==0){
+                                            tvthr.setText("Вы изучили все театры");
+                                        }
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();
             }
             if(list.getAdapter()==resultAdapter2){
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.DATE, 1);
                 SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
                 String formatted =cinema.get(pos).toString()+'\n'+ format1.format(cal.getTime());
-                Toast.makeText(getApplicationContext(),"Место "+cinema.get(pos)+" изучено "+format1.format(cal.getTime()), Toast.LENGTH_SHORT).show();
-                        history.add(formatted);
-                cinema.remove(pos);
+                history.add(formatted);
+                String s= String.valueOf(cinema.get(pos));
+                cinema.set(pos,"Место "+s+" изучено");
+                suggestResultView2.getChildAt(pos).setBackgroundColor(Color.parseColor("#FF66BB6A"));
                 resultAdapter2.notifyDataSetChanged();
-                update();
-                if (cinema.size()==0){
-                    tvcin.setText("Вы изучили все кинотеатры");
-                }
+                suggestResultView2.setClickable(false);
+
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            synchronized (this) {
+                                wait(1000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        cinema.remove(pos);
+                                        resultAdapter2.notifyDataSetChanged();
+                                        suggestResultView2.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                        suggestResultView2.setClickable(true);
+                                        update();
+                                        if (cinema.size()==0){
+                                            tvcin.setText("Вы изучили все кинотеатры");
+                                        }
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();
             }
             if(list.getAdapter()==resultAdapter3){
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.DATE, 1);
                 SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
                 String formatted =memorial.get(pos).toString()+'\n'+ format1.format(cal.getTime());
-                Toast.makeText(getApplicationContext(),"Место "+memorial.get(pos)+" изучено "+format1.format(cal.getTime()), Toast.LENGTH_SHORT).show();
-                        history.add(formatted);
-                memorial.remove(pos);
-                resultAdapter3.notifyDataSetChanged();
-                update();
-                if (memorial.size()==0){
-                    tvmem.setText("Вы изучили все ТЦ");
-                }
+                history.add(formatted);
+                String s= String.valueOf(memorial.get(pos));
+                memorial.set(pos,"Место "+s+" изучено");
+                suggestResultView3.getChildAt(pos).setBackgroundColor(Color.parseColor("#FF66BB6A"));
+                suggestResultView3.setClickable(false);
+                resultAdapter3  .notifyDataSetChanged();
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            synchronized (this) {
+                                wait(1000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        memorial.remove(pos);
+                                        resultAdapter3.notifyDataSetChanged();
+                                        suggestResultView3.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                        suggestResultView3.setClickable(true);
+                                        update();
+                                        if (memorial.size()==0){
+                                            tvmem.setText("Вы изучили все скульптуры");
+                                        }
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();
             }
             if(list.getAdapter()==ra4){
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.DATE, 1);
                 SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
                 String formatted =square.get(pos).toString()+'\n'+ format1.format(cal.getTime());
-                Toast.makeText(getApplicationContext(),"Место "+square.get(pos)+" изучено "+format1.format(cal.getTime()), Toast.LENGTH_SHORT).show();
-                        history.add(formatted);
-                square.remove(pos);
+                history.add(formatted);
+                String s= String.valueOf(square.get(pos));
+                square.set(pos,"Место "+s+" изучено");
+                sv4.getChildAt(pos).setBackgroundColor(Color.parseColor("#FF66BB6A"));
                 ra4.notifyDataSetChanged();
-                update();
-                if (square.size()==0){
-                    tvsqr.setText("Вы изучили все парки");
-                }
+                sv4.setClickable(false);
+
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            synchronized (this) {
+                                wait(1000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        square.remove(pos);
+                                        ra4.notifyDataSetChanged();
+                                        sv4.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                        sv4.setClickable(true);
+                                        update();
+                                        if (square.size()==0){
+                                            tvsqr.setText("Вы изучили все парки");
+                                        }
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();
             }
             if(list.getAdapter()==ra5){
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.DATE, 1);
                 SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
                 String formatted =moll.get(pos).toString()+'\n'+ format1.format(cal.getTime());
-                Toast.makeText(getApplicationContext(),"Место "+moll.get(pos)+" изучено "+format1.format(cal.getTime()), Toast.LENGTH_SHORT).show();
-                        history.add(formatted);
-                moll.remove(pos);
+                history.add(formatted);
+                String s= String.valueOf(moll.get(pos));
+                moll.set(pos,"Место "+s+" изучено");
+                sv5.getChildAt(pos).setBackgroundColor(Color.parseColor("#FF66BB6A"));
                 ra5.notifyDataSetChanged();
-                update();
-                if (moll.size()==0){
-                    tvmoll.setText("Вы изучили все ТЦ");
-                }
+                sv5.setClickable(false);
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            synchronized (this) {
+                                wait(1000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        moll.remove(pos);
+                                        ra5.notifyDataSetChanged();
+                                        sv5.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                        sv5.setClickable(true);
+                                        update();
+                                        if (moll.size()==0){
+                                            tvsqr.setText("Вы изучили все ТЦ");
+                                        }
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();
             }
             if(list.getAdapter()==ra6){
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.DATE, 1);
                 SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
                 String formatted =otherplace.get(pos).toString()+'\n'+ format1.format(cal.getTime());
-                Toast.makeText(getApplicationContext(),"Место "+otherplace.get(pos)+" изучено "+format1.format(cal.getTime()), Toast.LENGTH_SHORT).show();
-                        history.add(formatted);
-                otherplace.remove(pos);
+                history.add(formatted);
+                String s= String.valueOf(otherplace.get(pos));
+                otherplace.set(pos,"Место "+s+" изучено");
+                sv6.getChildAt(pos).setBackgroundColor(Color.parseColor("#FF66BB6A"));
                 ra6.notifyDataSetChanged();
-                update();
-                if (otherplace.size()==0){
-                    other.setText("");
-                }
+                sv6.setClickable(false);
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            synchronized (this) {
+                                wait(1000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        otherplace.remove(pos);
+                                        ra6.notifyDataSetChanged();
+                                        sv6.getChildAt(pos).setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                        sv6.setClickable(true);
+                                        update();
+                                        if (otherplace.size()==0){
+                                            other.setText("");
+                                        }
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();
             }
         }
 
