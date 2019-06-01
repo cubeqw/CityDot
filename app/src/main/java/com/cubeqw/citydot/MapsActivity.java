@@ -69,6 +69,7 @@ public class MapsActivity extends AppCompatActivity implements Session.SearchLis
     private final String MAPKIT_API_KEY = "67336d59-08cb-47f3-9b18-334860703128";
     String city_name;
     boolean f=true;
+    double progress;
     double lat, lon,  lat_def=55.75222, lon_def=37.61556;
     TinyDB tinydb;
     private CoordinatorLayout coordLayout;
@@ -78,7 +79,6 @@ public class MapsActivity extends AppCompatActivity implements Session.SearchLis
     TextView tv, ma;
     MaterialTapTargetPrompt mFabPrompt;
     ArrayList al=new ArrayList();
-    boolean map_paint=false;
 
     private void submitQuery(List query, List complete) {
         for (int i = 0; i < query.size(); i++) {
@@ -93,10 +93,7 @@ public class MapsActivity extends AppCompatActivity implements Session.SearchLis
                             if(f){
                                 mapObjects.clear();
                                 f=false;
-                                mapView.onStop();
-                                MapKitFactory.getInstance().onStop();
-                                MapKitFactory.getInstance().onStart();
-                                mapView.onStart();}
+                              }
                             for (GeoObjectCollection.Item searchResult : response.getCollection().getChildren()) {
                                 Point resultLocation = searchResult.getObj().getGeometry().get(0).getPoint();
 
@@ -274,19 +271,16 @@ public class MapsActivity extends AppCompatActivity implements Session.SearchLis
         double i=history.size()+al.size();
         int h=history.size()+al.size();
         double e=i/100;
-        double progress=history.size()/e;
+        progress=history.size()/e;
         progressBar.setProgress((int) progress);
         searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED);
         mapView = findViewById(R.id.mapview);
         mapView.getMap().addCameraListener(this);
         mapView.getMap().move(
                 new CameraPosition(new Point(lat, lon), 12f, 0.0f, 0.0f));
-while(map_paint){
     submitQuery(al, history);
-    map_paint=false;
-}
-        ma.setText(history.size()+" из "+h+" мест");
 
+        ma.setText(history.size()+" из "+h+" мест");
     }
 
 public void onClick(View v){
@@ -377,11 +371,21 @@ public void onClick(View v){
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case R.id.share:
+                Intent intent=new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                mapView.getScreenshot();
+                intent.putExtra(Intent.EXTRA_TEXT, "Я изучил город"+city_name+" на "+(int)progress+"%.\n А насколько ты знаешь свой город? Узнай с помощью CityDot");
+
+                startActivity(Intent.createChooser(intent, "Поделиться "));
+                return true;
+
             case R.id.termsmaps:
                 Intent browserIntent = new
                         Intent(Intent.ACTION_VIEW, Uri.parse("https://yandex.ru/legal/maps_termsofuse/"));
                 startActivity(browserIntent);                return true;
              default:return super.onOptionsItemSelected(item);
+
         }
     }
     @Override
@@ -418,23 +422,7 @@ public void onClick2(View v){
 
     @Override
     public void onSearchResponse(Response response) {
-        MapObjectCollection mapObjects = mapView.getMap().getMapObjects();
-        if(f){
-            mapObjects.clear();
-        f=false;
-            mapView.onStop();
-            MapKitFactory.getInstance().onStop();
-            MapKitFactory.getInstance().onStart();
-            mapView.onStart();}
-        for (GeoObjectCollection.Item searchResult : response.getCollection().getChildren()) {
-            Point resultLocation = searchResult.getObj().getGeometry().get(0).getPoint();
 
-            if (resultLocation != null) {
-                mapObjects.addPlacemark(
-                        resultLocation,
-                        ImageProvider.fromResource(this, R.drawable.search_result));
-            }
-        }
     }
 
     @Override
@@ -490,7 +478,6 @@ public void onClick2(View v){
         }for (int i = 0; i < otherplace.size(); i++) {
             al.add(city_name+" "+otherplace.get(i).toString());
         }
-        map_paint=true;
         mapView.onStop();
         MapKitFactory.getInstance().onStop();
         MapKitFactory.getInstance().onStart();
