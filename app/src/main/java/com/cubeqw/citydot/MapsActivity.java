@@ -13,7 +13,8 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
+
+pimport android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -79,7 +80,7 @@ public class MapsActivity extends AppCompatActivity implements Session.SearchLis
     TextView tv, ma;
     MaterialTapTargetPrompt mFabPrompt;
     ArrayList al=new ArrayList();
-
+    ArrayList empty=new ArrayList();
     private void submitQuery(List query, List complete) {
         for (int i = 0; i < query.size(); i++) {
             searchSession = searchManager.submit(
@@ -146,6 +147,7 @@ public class MapsActivity extends AppCompatActivity implements Session.SearchLis
         }}
     @Override
     protected void onCreate (Bundle savedInstanceState) {
+        empty.add("");
         MapKitFactory.setApiKey(MAPKIT_API_KEY);
         SharedPreferences sp = getSharedPreferences(SP_NAME, MODE_PRIVATE);
         boolean firstStart = sp.getBoolean(SP_KEY_FIRST_START, true);
@@ -278,7 +280,7 @@ public class MapsActivity extends AppCompatActivity implements Session.SearchLis
         mapView.getMap().addCameraListener(this);
         mapView.getMap().move(
                 new CameraPosition(new Point(lat, lon), 12f, 0.0f, 0.0f));
-    submitQuery(al, history);
+    submitQuery(empty, al, history);
 
         ma.setText(history.size()+" из "+h+" мест");
     }
